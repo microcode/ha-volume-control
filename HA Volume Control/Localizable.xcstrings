@@ -1,0 +1,408 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "(%@)" : {
+
+    },
+    "%@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
+    "Authentication" : {
+      "comment" : "Settings section title for HA token",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Authentifizierung"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autenticación"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Authentification"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autentisering"
+          }
+        }
+      }
+    },
+    "Captures volume up/down keys system-wide and adjusts the media player instead. Requires Accessibility permission." : {
+      "comment" : "Description below the volume key intercept toggle",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erfasst die Lautstärketasten systemweit und steuert stattdessen den Media Player. Erfordert die Berechtigung für Bedienungshilfen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Captura las teclas de volumen en todo el sistema y ajusta el reproductor multimedia en su lugar. Requiere permiso de Accesibilidad."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capture les touches de volume à l'échelle du système et ajuste le lecteur multimédia à la place. Nécessite l'autorisation d'accessibilité."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fångar upp volymknappar i hela systemet och justerar mediaspelaren istället. Kräver tillgänglighetsbehörighet."
+          }
+        }
+      }
+    },
+    "Connection" : {
+      "comment" : "Settings section title for HA URL",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbindung"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conexión"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connexion"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anslutning"
+          }
+        }
+      }
+    },
+    "Grant Accessibility Permission" : {
+      "comment" : "Button to open Accessibility settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Berechtigung für Bedienungshilfen erteilen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conceder permiso de accesibilidad"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accorder l'autorisation d'accessibilité"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ge tillgänglighetsbehörighet"
+          }
+        }
+      }
+    },
+    "HA Volume Control" : {
+      "comment" : "App title shown at the top of the menu bar popup"
+    },
+    "http://homeassistant.local:8123" : {
+
+    },
+    "Integrations" : {
+      "comment" : "Settings section title for HA integrations filter",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Integrationen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Integraciones"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intégrations"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Integrationer"
+          }
+        }
+      }
+    },
+    "Intercept hardware volume keys" : {
+      "comment" : "Toggle label for volume key interception",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hardware-Lautstärketasten abfangen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interceptar teclas de volumen del hardware"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intercepter les touches de volume matérielles"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avlyssna hårdvaruvolymknappar"
+          }
+        }
+      }
+    },
+    "Labels" : {
+      "comment" : "Settings section title for label-based entity filter",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bezeichnungen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etiquetas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Étiquettes"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etiketter"
+          }
+        }
+      }
+    },
+    "Loading…" : {
+      "comment" : "Shown while media player list is being fetched",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lädt…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cargando…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement…"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laddar…"
+          }
+        }
+      }
+    },
+    "Long-lived access token" : {
+      "comment" : "Placeholder text for the HA token field",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Langlebiges Zugriffstoken"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Token de acceso de larga duración"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeton d'accès longue durée"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Långlivad åtkomsttoken"
+          }
+        }
+      }
+    },
+    "Quit" : {
+      "comment" : "Footer button to terminate the app",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beenden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salir"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitter"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avsluta"
+          }
+        }
+      }
+    },
+    "Settings" : {
+      "comment" : "Footer button that opens the Settings window",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réglages"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inställningar"
+          }
+        }
+      }
+    },
+    "Token" : {
+      "comment" : "Label for the HA long-lived access token field"
+    },
+    "URL" : {
+      "comment" : "Label for the HA base URL field"
+    },
+    "Volume Keys" : {
+      "comment" : "Settings section title for volume key interception",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lautstärketasten"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teclas de volumen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touches de volume"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volymknappar"
+          }
+        }
+      }
+    },
+    "When labels are selected, only entities that carry at least one of them are shown. Selecting none shows all entities." : {
+      "comment" : "Description in the Labels filter section",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn Bezeichnungen ausgewählt sind, werden nur Entitäten angezeigt, die mindestens eine davon tragen. Wenn keine ausgewählt sind, werden alle Entitäten angezeigt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando se seleccionan etiquetas, solo se muestran las entidades que tienen al menos una de ellas. Si no se selecciona ninguna, se muestran todas las entidades."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lorsque des étiquettes sont sélectionnées, seules les entités qui en ont au moins une sont affichées. Si aucune n'est sélectionnée, toutes les entités sont affichées."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När etiketter är valda visas bara enheter som har minst en av dem. Väljer du inga visas alla enheter."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
