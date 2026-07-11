@@ -90,13 +90,14 @@ final class VolumeKeyInterceptor {
             : max(0.0, service.volume - step)
         service.volume = newVolume
         Task { await service.setVolume(newVolume) }
-        hud?.show(volume: newVolume, isMuted: service.isMuted, deviceName: service.friendlyName)
+        // setVolume will unmute if needed; reflect that immediately in the HUD
+        hud?.show(volume: newVolume, isMuted: false, deviceName: service.friendlyName)
     }
 
     fileprivate func handleMuteKey() {
         guard let service else { return }
         let predictedMuted = !service.isMuted
-        Task { await service.toggleMute() }
+        Task { await service.setMute() }
         hud?.show(volume: service.volume, isMuted: predictedMuted, deviceName: service.friendlyName)
     }
 
