@@ -370,10 +370,6 @@ final class HAService {
               let requestURL = URL(string: "\(baseURL)/api/services/media_player/volume_set") else { return }
 
         volume = value
-        if isMuted {
-            await setMute(false)
-            guard isConnected else { return }
-        }
 
         restLog.info("POST volume_set → \(value, format: .fixed(precision: 2)) for \(self.entityID, privacy: .public)")
 
@@ -392,6 +388,10 @@ final class HAService {
                 if !isConnected {
                     restLog.error("setVolume failed: HTTP \(httpResponse.statusCode)")
                 }
+            }
+
+            if isConnected && isMuted {
+                await setMute(false)
             }
         } catch {
             restLog.error("setVolume error: \(error.localizedDescription, privacy: .public)")
