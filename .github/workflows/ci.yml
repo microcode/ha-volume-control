@@ -57,7 +57,7 @@ jobs:
           fi
 
   package:
-    name: Archive & Export
+    name: Archive, Notarize & Export
     runs-on: macos-15
     needs: build
     if: github.ref == 'refs/heads/main'
@@ -100,7 +100,7 @@ jobs:
           <plist version="1.0">
           <dict>
               <key>method</key>
-              <string>development</string>
+              <string>developer-id</string>
               <key>destination</key>
               <string>export</string>
           </dict>
@@ -122,6 +122,27 @@ jobs:
             -archivePath "$RUNNER_TEMP/HA Volume Control.xcarchive" \
             -exportPath "$RUNNER_TEMP/export" \
             -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist"
+
+      - name: Notarize
+        env:
+          NOTARIZATION_API_KEY_BASE64: ${{ secrets.NOTARIZATION_API_KEY_BASE64 }}
+          NOTARIZATION_API_KEY_ID: ${{ secrets.NOTARIZATION_API_KEY_ID }}
+          NOTARIZATION_API_ISSUER: ${{ secrets.NOTARIZATION_API_ISSUER }}
+        run: |
+          APP="$RUNNER_TEMP/export/HA Volume Control.app"
+          KEY_PATH="$RUNNER_TEMP/AuthKey.p8"
+
+          echo "$NOTARIZATION_API_KEY_BASE64" | base64 --decode -o "$KEY_PATH"
+
+          ditto -c -k --keepParent "$APP" "$RUNNER_TEMP/app.zip"
+
+          xcrun notarytool submit "$RUNNER_TEMP/app.zip" \
+            --key "$KEY_PATH" \
+            --key-id "$NOTARIZATION_API_KEY_ID" \
+            --issuer "$NOTARIZATION_API_ISSUER" \
+            --wait
+
+          xcrun stapler staple "$APP"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
