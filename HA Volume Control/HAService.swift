@@ -333,11 +333,11 @@ final class HAService {
         }
     }
 
-    func toggleMute() async {
+    func setMute(_ muted: Bool? = nil) async {
         guard !baseURL.isEmpty, !token.isEmpty, !entityID.isEmpty,
               let requestURL = URL(string: "\(baseURL)/api/services/media_player/volume_mute") else { return }
 
-        let newMuted = !isMuted
+        let newMuted = muted ?? !isMuted
         isMuted = newMuted
         restLog.info("POST volume_mute → \(newMuted) for \(self.entityID, privacy: .public)")
 
@@ -354,12 +354,12 @@ final class HAService {
             if let httpResponse = response as? HTTPURLResponse {
                 isConnected = (200 ..< 300).contains(httpResponse.statusCode)
                 if !isConnected {
-                    restLog.error("toggleMute failed: HTTP \(httpResponse.statusCode)")
+                    restLog.error("setMute failed: HTTP \(httpResponse.statusCode)")
                     isMuted = !newMuted
                 }
             }
         } catch {
-            restLog.error("toggleMute error: \(error.localizedDescription, privacy: .public)")
+            restLog.error("setMute error: \(error.localizedDescription, privacy: .public)")
             isConnected = false
             isMuted = !newMuted
         }
@@ -369,8 +369,13 @@ final class HAService {
         guard !baseURL.isEmpty, !token.isEmpty, !entityID.isEmpty,
               let requestURL = URL(string: "\(baseURL)/api/services/media_player/volume_set") else { return }
 
-        restLog.info("POST volume_set → \(value, format: .fixed(precision: 2)) for \(self.entityID, privacy: .public)")
         volume = value
+        if isMuted {
+            await setMute(false)
+            guard isConnected else { return }
+        }
+
+        restLog.info("POST volume_set → \(value, format: .fixed(precision: 2)) for \(self.entityID, privacy: .public)")
 
         var request = URLRequest(url: requestURL)
         request.httpMethod = "POST"
