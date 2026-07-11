@@ -114,7 +114,10 @@ jobs:
             -scheme "$SCHEME" \
             -configuration Release \
             -destination "platform=macOS" \
-            -archivePath "$RUNNER_TEMP/HA Volume Control.xcarchive"
+            -archivePath "$RUNNER_TEMP/HA Volume Control.xcarchive" \
+            CODE_SIGN_STYLE=Manual \
+            CODE_SIGN_IDENTITY="Developer ID Application" \
+            DEVELOPMENT_TEAM="${{ secrets.APPLE_TEAM_ID }}"
 
       - name: Export archive
         run: |
