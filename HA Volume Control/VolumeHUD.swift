@@ -96,7 +96,7 @@ final class VolumeHUDPanel {
     }
 
     func show(volume: Double, isMuted: Bool, deviceName: String) {
-        let screen = NSScreen.main ?? NSScreen.screens[0]
+        let screen = NSScreen.screens[0]
         let isPopupVisible = NSApp.windows.contains { window in
             window is NSPanel &&
                 window.level != .screenSaver &&
