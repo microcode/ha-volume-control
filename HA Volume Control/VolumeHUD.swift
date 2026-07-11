@@ -96,12 +96,21 @@ final class VolumeHUDPanel {
     }
 
     func show(volume: Double, isMuted: Bool, deviceName: String) {
+        let screen = NSScreen.main ?? NSScreen.screens[0]
+        let isPopupVisible = NSApp.windows.contains { window in
+            window is NSPanel &&
+                window.level != .screenSaver &&
+                window.isVisible &&
+                abs(window.frame.maxY - screen.visibleFrame.maxY) < 50
+        }
+        guard !isPopupVisible else { return }
+
         hideWorkItem?.cancel()
         hideWorkItem = nil
 
         hostingView.rootView = HUDView(volume: volume, isMuted: isMuted, deviceName: deviceName)
 
-        let screen = NSScreen.main ?? NSScreen.screens[0]
+
         let centerX = iconCenterX > 0 ? iconCenterX : screen.frame.midX
         let size = hostingView.fittingSize
         let x = max(0, min(centerX - size.width / 2, screen.frame.maxX - size.width))
