@@ -101,6 +101,9 @@
         }
       }
     },
+    "GitHub" : {
+
+    },
     "Grant Accessibility Permission" : {
       "comment" : "Button to open Accessibility settings",
       "localizations" : {
@@ -343,6 +346,9 @@
 
     },
     "URL" : {
+
+    },
+    "Version %@" : {
 
     },
     "Volume Keys" : {

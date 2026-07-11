@@ -29,7 +29,28 @@ struct SettingsView: View {
 
     var body: some View {
         let _ = interceptor.isEnabled
-        Form {
+        VStack(spacing: 0) {
+            HStack(spacing: 12) {
+                Image(nsImage: NSApp.applicationIconImage)
+                    .resizable()
+                    .frame(width: 48, height: 48)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? "HA Volume Control")
+                        .font(.headline)
+                    if let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+                        Text("Version \(version)")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+                    Link("GitHub", destination: URL(string: "https://github.com/microcode/ha-volume-control/")!)
+                        .font(.subheadline)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 16)
+
+            Form {
             Section("Connection") {
                 TextField("URL", text: $haURL, prompt: Text("http://homeassistant.local:8123"))
                     .onChange(of: haURL) { _, new in
@@ -116,10 +137,11 @@ struct SettingsView: View {
                     }
                 }
             }
+            }
+            .formStyle(.grouped)
+            .padding(.bottom)
         }
-        .formStyle(.grouped)
         .frame(width: 450)
-        .padding()
         .onAppear {
             haToken = KeychainHelper.load(forKey: "haToken")
             hasAccessibilityPermission = VolumeKeyInterceptor.hasAccessibilityPermission
