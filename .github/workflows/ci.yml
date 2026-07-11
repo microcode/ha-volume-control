@@ -100,7 +100,8 @@ jobs:
             -archivePath "$RUNNER_TEMP/HA Volume Control.xcarchive" \
             CODE_SIGN_STYLE=Manual \
             CODE_SIGN_IDENTITY="Developer ID Application" \
-            DEVELOPMENT_TEAM="${{ secrets.APPLE_TEAM_ID }}"
+            DEVELOPMENT_TEAM="${{ secrets.APPLE_TEAM_ID }}" \
+            ENABLE_HARDENED_RUNTIME=YES
 
       - name: Export archive
         run: |
@@ -122,11 +123,26 @@ jobs:
 
           ditto -c -k --keepParent "$APP" "$RUNNER_TEMP/app.zip"
 
-          xcrun notarytool submit "$RUNNER_TEMP/app.zip" \
+          RESULT=$(xcrun notarytool submit "$RUNNER_TEMP/app.zip" \
             --key "$KEY_PATH" \
             --key-id "$NOTARIZATION_API_KEY_ID" \
             --issuer "$NOTARIZATION_API_ISSUER" \
-            --wait
+            --wait \
+            --output-format json)
+
+          echo "$RESULT"
+
+          SUBMISSION_ID=$(echo "$RESULT" | jq -r '.id')
+          STATUS=$(echo "$RESULT" | jq -r '.status')
+
+          if [ "$STATUS" != "Accepted" ]; then
+            echo "Notarization failed ($STATUS) — fetching log for submission $SUBMISSION_ID"
+            xcrun notarytool log "$SUBMISSION_ID" \
+              --key "$KEY_PATH" \
+              --key-id "$NOTARIZATION_API_KEY_ID" \
+              --issuer "$NOTARIZATION_API_ISSUER"
+            exit 1
+          fi
 
           xcrun stapler staple "$APP"
 
