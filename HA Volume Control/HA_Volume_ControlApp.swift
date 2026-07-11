@@ -28,6 +28,11 @@ struct HA_Volume_ControlApp: App {
     @State private var interceptor: VolumeKeyInterceptor
 
     init() {
+        if let bundleID = Bundle.main.bundleIdentifier,
+           NSRunningApplication.runningApplications(withBundleIdentifier: bundleID).count > 1 {
+            exit(0)
+        }
+
         let service = HAService()
         let interceptor = VolumeKeyInterceptor()
         interceptor.service = service
