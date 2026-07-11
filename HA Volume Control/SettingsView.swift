@@ -42,6 +42,8 @@ struct SettingsView: View {
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
+                    Link("GitHub", destination: URL(string: "https://github.com/microcode/ha-volume-control/")!)
+                        .font(.subheadline)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
