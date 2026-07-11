@@ -203,7 +203,7 @@ struct ContentView: View {
         })
         .onPreferenceChange(PopupHeightKey.self) { height in
             guard height > 10 else { return }
-            let screen = NSScreen.main ?? NSScreen.screens[0]
+            let screen = NSScreen.screens[0]
             // Exclude the HUD panel (level .screenSaver) to find only the MenuBarExtra popup
             guard let popup = NSApp.windows.first(where: { window in
                 window is NSPanel &&
@@ -228,7 +228,7 @@ struct ContentView: View {
 
             // The popup is on screen right now — capture its midX so the HUD
             // can center itself under the menu bar icon.
-            if let screen = NSScreen.main,
+            if let screen = NSScreen.screens.first,
                let popup = NSApp.windows.first(where: { window in
                    window is NSPanel && window.isVisible &&
                        abs(window.frame.maxY - screen.visibleFrame.maxY) < 30
