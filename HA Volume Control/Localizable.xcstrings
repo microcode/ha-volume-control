@@ -345,6 +345,9 @@
     "URL" : {
 
     },
+    "Version %@" : {
+
+    },
     "Volume Keys" : {
       "comment" : "Settings section title for volume key interception",
       "localizations" : {
