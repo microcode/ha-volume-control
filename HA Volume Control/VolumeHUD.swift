@@ -67,14 +67,15 @@ final class VolumeHUDPanel {
     private let panel: NSPanel
     private let hostingView: NSHostingView<HUDView>
     private var hideWorkItem: DispatchWorkItem?
-    /// Set by ContentView.onAppear, which fires while the popup is on screen
-    private var iconCenterX: CGFloat = 0
+    private var iconCenterX: CGFloat
 
     func noteIconCenter(_ x: CGFloat) {
         iconCenterX = x
+        UserDefaults.standard.set(x, forKey: "hudIconCenterX")
     }
 
     init() {
+        iconCenterX = UserDefaults.standard.double(forKey: "hudIconCenterX")
         hostingView = NSHostingView(rootView: HUDView(volume: 0.5, isMuted: false, deviceName: ""))
 
         let size = hostingView.fittingSize
