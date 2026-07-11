@@ -131,7 +131,7 @@
       }
     },
     "HA Volume Control" : {
-      "comment" : "App title shown at the top of the menu bar popup"
+
     },
     "http://homeassistant.local:8123" : {
 
@@ -340,10 +340,10 @@
       }
     },
     "Token" : {
-      "comment" : "Label for the HA long-lived access token field"
+
     },
     "URL" : {
-      "comment" : "Label for the HA base URL field"
+
     },
     "Volume Keys" : {
       "comment" : "Settings section title for volume key interception",
