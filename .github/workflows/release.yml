@@ -1,0 +1,63 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+env:
+  PROJECT: "HA Volume Control.xcodeproj"
+
+jobs:
+  bump-and-tag:
+    name: Bump version, commit & tag
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bump minor version
+        id: bump
+        run: |
+          PBXPROJ="$PROJECT/project.pbxproj"
+
+          CURRENT=$(sed -n 's/.*MARKETING_VERSION = \([0-9.]*\);.*/\1/p' "$PBXPROJ" | head -1)
+          if [ -z "$CURRENT" ]; then
+            echo "Could not find MARKETING_VERSION in $PBXPROJ"
+            exit 1
+          fi
+
+          MAJOR=$(echo "$CURRENT" | cut -d. -f1)
+          MINOR=$(echo "$CURRENT" | cut -d. -f2)
+          NEW="$MAJOR.$((MINOR + 1)).0"
+
+          sed -i "s/MARKETING_VERSION = $CURRENT;/MARKETING_VERSION = $NEW;/g" "$PBXPROJ"
+
+          echo "Bumped $CURRENT -> $NEW"
+          echo "version=$NEW" >> "$GITHUB_OUTPUT"
+
+      - name: Commit, tag & push
+        run: |
+          VERSION="${{ steps.bump.outputs.version }}"
+          TAG="v$VERSION"
+
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists"
+            exit 1
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add "$PROJECT/project.pbxproj"
+          git commit -m "Bump version to $VERSION [skip ci]"
+          git tag "$TAG"
+          git push origin HEAD "$TAG"
+
+      # Pushes from GITHUB_TOKEN don't trigger workflows, and [skip ci] in the
+      # tagged commit would suppress the tag build anyway — dispatch it explicitly.
+      - name: Trigger CI for the tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run ci.yml --ref "v${{ steps.bump.outputs.version }}" --repo "${{ github.repository }}"
