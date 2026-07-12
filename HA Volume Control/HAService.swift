@@ -283,8 +283,6 @@ final class HAService {
         webSocketTask?.cancel(with: .normalClosure, reason: nil)
     }
 
-    // MARK: - REST API
-
     func fetchVolume() async {
         guard !baseURL.isEmpty, !token.isEmpty, !entityID.isEmpty,
               let requestURL = URL(string: "\(baseURL)/api/states/\(entityID)")

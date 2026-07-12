@@ -2,7 +2,7 @@
   "sourceLanguage" : "en",
   "strings" : {
     "(%@)" : {
-
+      "shouldTranslate" : false
     },
     "%@ %@" : {
       "localizations" : {
@@ -12,7 +12,11 @@
             "value" : "%1$@ %2$@"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
+    },
+    "%lld%%" : {
+      "shouldTranslate" : false
     },
     "Authentication" : {
       "comment" : "Settings section title for HA token",
@@ -102,7 +106,7 @@
       }
     },
     "GitHub" : {
-
+      "shouldTranslate" : false
     },
     "Grant Accessibility Permission" : {
       "comment" : "Button to open Accessibility settings",
@@ -134,10 +138,10 @@
       }
     },
     "HA Volume Control" : {
-
+      "shouldTranslate" : false
     },
     "http://homeassistant.local:8123" : {
-
+      "shouldTranslate" : false
     },
     "Integrations" : {
       "comment" : "Settings section title for HA integrations filter",
@@ -342,14 +346,121 @@
         }
       }
     },
+    "Show percentage in volume HUD" : {
+      "comment" : "Toggle label for showing the volume percentage in the HUD",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prozentsatz im Lautstärke-HUD anzeigen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar porcentaje en el HUD de volumen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le pourcentage dans le HUD de volume"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visa procent i volym-HUD"
+          }
+        }
+      }
+    },
     "Token" : {
-
+      "comment" : "Label for the HA access token field",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Token"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Token"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeton"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Token"
+          }
+        }
+      }
     },
     "URL" : {
-
+      "comment" : "Label for the HA server URL field",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL"
+          }
+        }
+      }
     },
     "Version %@" : {
-
+      "comment" : "Version label in the settings header",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versión %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@"
+          }
+        }
+      }
     },
     "Volume Keys" : {
       "comment" : "Settings section title for volume key interception",
