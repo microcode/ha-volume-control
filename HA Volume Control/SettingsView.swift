@@ -4,6 +4,7 @@ struct SettingsView: View {
     @AppStorage("haURL") private var haURL = ""
     @AppStorage("disabledIntegrations") private var disabledIntegrationsStr = ""
     @AppStorage("requiredLabels") private var requiredLabelsStr = ""
+    @AppStorage("hudShowPercentage") private var hudShowPercentage = false
     @State private var haToken = ""
 
     @Environment(HAService.self) private var service
@@ -80,6 +81,9 @@ struct SettingsView: View {
                         }
                         .font(.caption)
                     }
+                    Toggle("Show percentage in volume HUD", isOn: $hudShowPercentage)
+                        .toggleStyle(.switch)
+                        .tint(.accentColor)
                 }
 
                 if !service.allLabels.isEmpty {

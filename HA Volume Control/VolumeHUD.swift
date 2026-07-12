@@ -1,26 +1,59 @@
 import AppKit
 import SwiftUI
 
+private struct BehindWindowBlur: NSViewRepresentable {
+    func makeNSView(context: Context) -> NSVisualEffectView {
+        let view = NSVisualEffectView()
+        view.blendingMode = .behindWindow
+        // .fullScreenUI is the most transparent standard material — barely tinted,
+        // so the Liquid Glass layer above provides most of the appearance.
+        view.material = .fullScreenUI
+        view.state = .active
+        return view
+    }
+
+    func updateNSView(_ nsView: NSVisualEffectView, context: Context) {}
+}
+
+private struct HUDBackground: ViewModifier {
+    private static let cornerRadius: CGFloat = 22
+
+    func body(content: Content) -> some View {
+        if #available(macOS 26.0, *) {
+            content
+                .glassEffect(.clear, in: .rect(cornerRadius: Self.cornerRadius, style: .continuous))
+        } else {
+            content.background {
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .fill(.regularMaterial)
+            }
+        }
+    }
+}
+
 private struct HUDView: View {
     let volume: Double
     let isMuted: Bool
     let deviceName: String
 
+    @AppStorage("hudShowPercentage") private var showPercentage = false
+    @Environment(\.colorScheme) private var colorScheme
+
     var body: some View {
         VStack(spacing: 8) {
             if !deviceName.isEmpty {
                 Text(deviceName)
-                    .font(.system(size: 12, weight: .medium))
-                    .foregroundStyle(.secondary)
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(.primary)
                     .lineLimit(1)
                     .truncationMode(.middle)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
 
             HStack(spacing: 10) {
-                Image(systemName: "speaker")
+                Image(systemName: "speaker.fill")
                     .font(.system(size: 14))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.primary)
                     .frame(width: 16)
 
                 VStack(spacing: 4) {
@@ -29,7 +62,7 @@ private struct HUDView: View {
                             Capsule()
                                 .fill(Color.primary.opacity(0.15))
                             Capsule()
-                                .fill(Color.primary.opacity(0.85))
+                                .fill(colorScheme == .dark ? Color.white : Color.black)
                                 .frame(width: max(0, geo.size.width * (isMuted ? 0 : volume)))
                         }
                     }
@@ -41,25 +74,29 @@ private struct HUDView: View {
                                 Spacer(minLength: 0)
                             }
                             Rectangle()
-                                .fill(Color.primary.opacity(0.3))
-                                .frame(width: 1.5, height: 4)
+                                .fill(Color.primary.opacity(0.15))
+                                .frame(width: 1, height: 2)
                         }
                     }
                 }
 
-                Image(systemName: "speaker.wave.3")
+                Image(systemName: "speaker.wave.3.fill")
                     .font(.system(size: 14))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.primary)
                     .frame(width: 16)
+
+                if showPercentage {
+                    Text("\(Int(((isMuted ? 0 : volume) * 100).rounded()))%")
+                        .font(.system(size: 11, weight: .semibold).monospacedDigit())
+                        .foregroundStyle(.secondary)
+                        .frame(width: 36, alignment: .trailing)
+                }
             }
         }
         .padding(.horizontal, 18)
         .padding(.vertical, 14)
-        .background {
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .fill(.regularMaterial)
-        }
-        .frame(width: 240)
+        .modifier(HUDBackground())
+        .frame(width: 300)
     }
 }
 
