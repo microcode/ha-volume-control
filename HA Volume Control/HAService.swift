@@ -30,19 +30,7 @@ struct HAIntegration: Identifiable, Hashable {
     }
 
     var icon: String {
-        switch platform {
-        case "apple_tv": return "appletv"
-        case "cast", "samsungtv",
-             "webostv", "androidtv",
-             "roku", "kodi": return "tv"
-        case "spotify", "mpd",
-             "forked_daapd": return "music.note"
-        case "sonos", "squeezebox": return "hifispeaker.fill"
-        case "plex", "jellyfin",
-             "emby", "vlc_telnet", "vlc": return "film"
-        case "homekit": return "homekit"
-        default: return "hifispeaker"
-        }
+        HAIcons.sfSymbol(forPlatform: platform)
     }
 }
 
@@ -59,6 +47,7 @@ final class HAService {
     private(set) var labelsByEntityID: [String: Set<String>] = [:]
     private(set) var allLabels: [String] = []
     private(set) var labelNames: [String: String] = [:]
+    private(set) var iconsByEntityID: [String: String] = [:]
 
     private var baseURL: String = ""
     private var token: String = ""
@@ -99,7 +88,7 @@ final class HAService {
             .replacingOccurrences(of: "https://", with: "wss://")
             .replacingOccurrences(of: "http://", with: "ws://")
         guard let url = URL(string: "\(wsBase)/api/websocket") else {
-            wsLog.error("Invalid WebSocket URL derived from base URL: \(self.baseURL)")
+            wsLog.error("Invalid WebSocket URL derived from base URL: \(baseURL)")
             return
         }
 
@@ -178,7 +167,7 @@ final class HAService {
 
         let triggerEntityID = trigger["entity_id"] as? String ?? "<unknown>"
         guard triggerEntityID == entityID else {
-            eventLog.debug("Ignoring state change for \(triggerEntityID, privacy: .public) (selected: \(self.entityID, privacy: .public))")
+            eventLog.debug("Ignoring state change for \(triggerEntityID, privacy: .public) (selected: \(entityID, privacy: .public))")
             return
         }
 
@@ -199,7 +188,7 @@ final class HAService {
             friendlyName = name
         }
 
-        eventLog.info("State update for \(triggerEntityID, privacy: .public): volume=\(self.volume, format: .fixed(precision: 2)) muted=\(self.isMuted) name=\(self.friendlyName, privacy: .public)")
+        eventLog.info("State update for \(triggerEntityID, privacy: .public): volume=\(volume, format: .fixed(precision: 2)) muted=\(isMuted) name=\(friendlyName, privacy: .public)")
     }
 
     private func handleMessage(_ text: String) {
@@ -225,6 +214,7 @@ final class HAService {
         var platformMap: [String: String] = [:]
         var suppressedIDs: Set<String> = []
         var labelMap: [String: Set<String>] = [:]
+        var iconMap: [String: String] = [:]
         for entry in entries {
             guard let entityID = entry["entity_id"] as? String,
                   entityID.hasPrefix("media_player."),
@@ -240,6 +230,9 @@ final class HAService {
             } else {
                 registryLog.debug("Entity: \(entityID, privacy: .public) platform=\(platform, privacy: .public) labels=\(labels, privacy: .public)")
                 platformMap[entityID] = platform
+                if let icon = entry["icon"] as? String {
+                    iconMap[entityID] = icon
+                }
             }
             if !labels.isEmpty {
                 labelMap[entityID] = Set(labels)
@@ -248,9 +241,10 @@ final class HAService {
         platformByEntityID = platformMap
         disabledOrHiddenEntityIDs = suppressedIDs
         labelsByEntityID = labelMap
+        iconsByEntityID = iconMap
         allLabels = Set(labelMap.values.joined()).sorted()
         integrations = Set(platformMap.values).sorted().map { HAIntegration(platform: $0) }
-        registryLog.info("Entity registry done: \(platformMap.count) active, \(suppressedIDs.count) suppressed, \(self.integrations.count) integration(s), \(self.allLabels.count) label(s)")
+        registryLog.info("Entity registry done: \(platformMap.count) active, \(suppressedIDs.count) suppressed, \(integrations.count) integration(s), \(allLabels.count) label(s)")
         subscribeToMediaPlayerEntities(Array(platformMap.keys))
     }
 
@@ -322,7 +316,7 @@ final class HAService {
                 isMuted = attributes["is_volume_muted"] as? Bool ?? false
                 friendlyName = attributes["friendly_name"] as? String ?? ""
                 isConnected = true
-                restLog.info("fetchVolume: volume=\(vol, format: .fixed(precision: 2)) muted=\(self.isMuted) name=\(self.friendlyName, privacy: .public)")
+                restLog.info("fetchVolume: volume=\(vol, format: .fixed(precision: 2)) muted=\(isMuted) name=\(friendlyName, privacy: .public)")
             } else {
                 restLog.error("fetchVolume: unexpected response body")
                 isConnected = false
@@ -339,7 +333,7 @@ final class HAService {
 
         let newMuted = muted ?? !isMuted
         isMuted = newMuted
-        restLog.info("POST volume_mute → \(newMuted) for \(self.entityID, privacy: .public)")
+        restLog.info("POST volume_mute → \(newMuted) for \(entityID, privacy: .public)")
 
         var request = URLRequest(url: requestURL)
         request.httpMethod = "POST"
@@ -371,7 +365,7 @@ final class HAService {
 
         volume = value
 
-        restLog.info("POST volume_set → \(value, format: .fixed(precision: 2)) for \(self.entityID, privacy: .public)")
+        restLog.info("POST volume_set → \(value, format: .fixed(precision: 2)) for \(entityID, privacy: .public)")
 
         var request = URLRequest(url: requestURL)
         request.httpMethod = "POST"
@@ -390,7 +384,7 @@ final class HAService {
                 }
             }
 
-            if isConnected && isMuted {
+            if isConnected, isMuted {
                 await setMute(false)
             }
         } catch {
