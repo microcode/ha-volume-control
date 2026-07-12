@@ -7,26 +7,10 @@ struct MediaPlayer: Identifiable {
 
     let entityID: String
     let friendlyName: String
+    let icon: String
 
     var displayName: String {
         friendlyName.isEmpty ? entityID : friendlyName
-    }
-
-    var icon: String {
-        let lower = entityID.lowercased()
-        if lower.contains("appletv") {
-            return "appletv"
-        }
-        if lower.contains("homepod") {
-            return "homepod.fill"
-        }
-        if lower.contains("tv") || lower.contains("tele") {
-            return "tv"
-        }
-        if lower.contains("airpod") {
-            return "airpodspro"
-        }
-        return "hifispeaker.fill"
     }
 }
 
@@ -242,6 +226,11 @@ struct ContentView: View {
                 sliderValue = newValue
             }
         }
+        .onChange(of: service.platformByEntityID) { _, _ in
+            mediaPlayers = mediaPlayers.map {
+                MediaPlayer(entityID: $0.entityID, friendlyName: $0.friendlyName, icon: resolvedIcon(entityID: $0.entityID))
+            }
+        }
     }
 
     private func footerButton(_ title: LocalizedStringKey, action: @escaping () -> Void) -> some View {
@@ -256,6 +245,18 @@ struct ContentView: View {
         haEntityID = player.entityID
         service.configure(url: haURL, token: haToken, entityID: player.entityID)
         Task { await service.fetchVolume() }
+    }
+
+    private func resolvedIcon(entityID: String) -> String {
+        if let mdi = service.iconsByEntityID[entityID],
+           let sf = HAIcons.sfSymbol(forMDI: mdi)
+        {
+            return sf
+        }
+        if let platform = service.platformByEntityID[entityID] {
+            return HAIcons.sfSymbol(forPlatform: platform)
+        }
+        return HAIcons.sfSymbol(forEntityID: entityID)
     }
 
     private func loadMediaPlayers() async {
@@ -282,7 +283,7 @@ struct ContentView: View {
                       entityID.hasPrefix("media_player.") else { return nil }
                 let attributes = state["attributes"] as? [String: Any] ?? [:]
                 let friendlyName = attributes["friendly_name"] as? String ?? ""
-                return MediaPlayer(entityID: entityID, friendlyName: friendlyName)
+                return MediaPlayer(entityID: entityID, friendlyName: friendlyName, icon: resolvedIcon(entityID: entityID))
             }
             .sorted { $0.displayName < $1.displayName }
     }

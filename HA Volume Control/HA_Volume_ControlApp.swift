@@ -29,7 +29,8 @@ struct HA_Volume_ControlApp: App {
 
     init() {
         if let bundleID = Bundle.main.bundleIdentifier,
-           NSRunningApplication.runningApplications(withBundleIdentifier: bundleID).count > 1 {
+           NSRunningApplication.runningApplications(withBundleIdentifier: bundleID).count > 1
+        {
             exit(0)
         }
 

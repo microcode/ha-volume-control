@@ -110,7 +110,6 @@ final class VolumeHUDPanel {
 
         hostingView.rootView = HUDView(volume: volume, isMuted: isMuted, deviceName: deviceName)
 
-
         let centerX = iconCenterX > 0 ? iconCenterX : screen.frame.midX
         let size = hostingView.fittingSize
         let x = max(0, min(centerX - size.width / 2, screen.frame.maxX - size.width))
