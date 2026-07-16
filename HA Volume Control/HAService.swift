@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 import Observation
 import os
@@ -54,9 +55,36 @@ final class HAService {
 
     private var webSocketTask: URLSessionWebSocketTask?
     private var connectionTask: Task<Void, Never>?
+    private var reconnectAttempt = 0
     private var nextMessageID = 1
     private var registryRequestID = 0
     private var labelRegistryRequestID = 0
+
+    private var sleepObserver: NSObjectProtocol?
+    private var wakeObserver: NSObjectProtocol?
+
+    init() {
+        sleepObserver = NSWorkspace.shared.notificationCenter.addObserver(
+            forName: NSWorkspace.willSleepNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            guard let self else { return }
+            wsLog.info("System sleeping — tearing down WebSocket")
+            self.connectionTask?.cancel()
+            self.webSocketTask?.cancel(with: .normalClosure, reason: nil)
+            self.webSocketTask = nil
+            self.isConnected = false
+        }
+        wakeObserver = NSWorkspace.shared.notificationCenter.addObserver(
+            forName: NSWorkspace.didWakeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            wsLog.info("System woke — reconnecting WebSocket")
+            self?.startWebSocket()
+        }
+    }
 
     func configure(url: String, token: String, entityID: String) {
         let needsReconnect = url != baseURL || token != self.token
@@ -78,18 +106,40 @@ final class HAService {
         webSocketTask?.cancel(with: .normalClosure, reason: nil)
         webSocketTask = nil
         isConnected = false
+        reconnectAttempt = 0
 
         guard !baseURL.isEmpty, !token.isEmpty else {
             wsLog.debug("Skipping WebSocket start — URL or token not configured")
             return
         }
 
+        connectionTask = Task { [weak self] in
+            guard let self else { return }
+            while !Task.isCancelled {
+                let shouldRetry = await self.runWebSocket()
+                guard !Task.isCancelled, shouldRetry else { return }
+                self.reconnectAttempt += 1
+                let delay = self.backoffDelay(attempt: self.reconnectAttempt)
+                wsLog.info("Reconnecting in \(delay, format: .fixed(precision: 1))s (attempt \(self.reconnectAttempt))")
+                try? await Task.sleep(for: .seconds(delay))
+            }
+        }
+    }
+
+    private func backoffDelay(attempt: Int) -> Double {
+        let uncapped = pow(2.0, Double(attempt))
+        let capped = min(uncapped, 60.0)
+        return capped * Double.random(in: 0.75...1.25)
+    }
+
+    // Returns true if the caller should retry the connection, false if it should stop (cancelled or auth failure).
+    private func runWebSocket() async -> Bool {
         let wsBase = baseURL
             .replacingOccurrences(of: "https://", with: "wss://")
             .replacingOccurrences(of: "http://", with: "ws://")
         guard let url = URL(string: "\(wsBase)/api/websocket") else {
             wsLog.error("Invalid WebSocket URL derived from base URL: \(self.baseURL)")
-            return
+            return false
         }
 
         wsLog.info("Connecting to \(url.absoluteString, privacy: .public)")
@@ -97,12 +147,6 @@ final class HAService {
         webSocketTask = task
         task.resume()
 
-        connectionTask = Task { [weak self] in
-            await self?.runWebSocket(task: task)
-        }
-    }
-
-    private func runWebSocket(task: URLSessionWebSocketTask) async {
         do {
             // 1. auth_required
             _ = try await task.receive()
@@ -121,9 +165,11 @@ final class HAService {
             else {
                 wsLog.error("Authentication failed")
                 isConnected = false
-                return
+                task.cancel(with: .normalClosure, reason: nil)
+                return false
             }
             wsLog.info("Authenticated successfully")
+            reconnectAttempt = 0
 
             // 4. request entity registry to discover media player platforms
             let regID = nextMessageID; nextMessageID += 1
@@ -148,13 +194,14 @@ final class HAService {
                 }
             }
         } catch {
-            guard !Task.isCancelled else { return }
-            wsLog.error("WebSocket error: \(error.localizedDescription, privacy: .public) — retrying in 5s")
+            guard !Task.isCancelled else { return false }
+            wsLog.error("WebSocket error: \(error.localizedDescription, privacy: .public)")
             isConnected = false
-            try? await Task.sleep(for: .seconds(5))
-            guard !Task.isCancelled else { return }
-            startWebSocket()
+            task.cancel(with: .normalClosure, reason: nil)
+            webSocketTask = nil
+            return true
         }
+        return false
     }
 
     private func handleTriggerEvent(_ text: String) {
@@ -279,6 +326,8 @@ final class HAService {
     }
 
     deinit {
+        if let sleepObserver { NSWorkspace.shared.notificationCenter.removeObserver(sleepObserver) }
+        if let wakeObserver { NSWorkspace.shared.notificationCenter.removeObserver(wakeObserver) }
         connectionTask?.cancel()
         webSocketTask?.cancel(with: .normalClosure, reason: nil)
     }
