@@ -153,6 +153,7 @@ final class VolumeHUDPanel {
         let y = screen.visibleFrame.maxY - size.height - 10
         panel.setFrame(NSRect(origin: NSPoint(x: x, y: y), size: size), display: false)
 
+        panel.collectionBehavior = [.canJoinAllSpaces, .stationary, .ignoresCycle]
         panel.orderFrontRegardless()
         NSAnimationContext.runAnimationGroup { ctx in
             ctx.duration = 0.15
