@@ -2,6 +2,8 @@ import ServiceManagement
 import SwiftUI
 
 struct SettingsView: View {
+    var checkForUpdates: (() -> Void)? = nil
+
     @AppStorage("haURL") private var haURL = ""
     @AppStorage("disabledIntegrations") private var disabledIntegrationsStr = ""
     @AppStorage("requiredLabels") private var requiredLabelsStr = ""
@@ -75,6 +77,9 @@ struct SettingsView: View {
                     Toggle("Launch at login", isOn: launchAtLoginToggle)
                         .toggleStyle(.switch)
                         .tint(.accentColor)
+                    Button("Check for Updates…") {
+                        checkForUpdates?()
+                    }
                 }
 
                 Section("Connection") {
