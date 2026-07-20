@@ -243,7 +243,11 @@ jobs:
 
           curl -L -o "/tmp/${ZIP_NAME}" "$DOWNLOAD_URL"
 
-          SIGN_OUTPUT=$(echo "$SPARKLE_PRIVATE_KEY" | /tmp/sparkle/bin/sign_update "/tmp/${ZIP_NAME}" --ed-key-file -)
+          if ! SIGN_OUTPUT=$(echo "$SPARKLE_PRIVATE_KEY" | /tmp/sparkle/bin/sign_update "/tmp/${ZIP_NAME}" --ed-key-file - 2>&1); then
+            echo "sign_update failed:"
+            echo "$SIGN_OUTPUT"
+            exit 1
+          fi
           echo "sign_update output: ${SIGN_OUTPUT}"
 
           SIGNATURE=$(echo "$SIGN_OUTPUT" | python3 -c "import sys,re; m=re.search(r'edSignature=\"([^\"]+)\"', sys.stdin.read()); print(m.group(1))")
