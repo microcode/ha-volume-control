@@ -1,3 +1,4 @@
+import Sparkle
 import SwiftUI
 
 private struct MenuBarIcon: View {
@@ -24,6 +25,7 @@ private struct MenuBarIcon: View {
 
 @main
 struct HA_Volume_ControlApp: App {
+    private let updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
     @State private var service: HAService
     @State private var interceptor: VolumeKeyInterceptor
 
@@ -68,7 +70,7 @@ struct HA_Volume_ControlApp: App {
         .menuBarExtraStyle(.window)
 
         Settings {
-            SettingsView()
+            SettingsView(checkForUpdates: { updaterController.checkForUpdates(nil) })
                 .environment(service)
                 .environment(interceptor)
         }
