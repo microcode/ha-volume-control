@@ -16,36 +16,7 @@
       "shouldTranslate" : false
     },
     "%lld%%" : {
-      "shouldTranslate" : false
-    },
-    "Authentication" : {
-      "comment" : "Settings section title for HA token",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Authentifizierung"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Autenticación"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Authentification"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Autentisering"
-          }
-        }
-      }
+
     },
     "Captures volume up/down keys system-wide and adjusts the media player instead. Requires Accessibility permission." : {
       "comment" : "Description below the volume key intercept toggle",
@@ -101,6 +72,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Anslutning"
+          }
+        }
+      }
+    },
+    "General" : {
+      "comment" : "Settings section title for general app behavior",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allgemein"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "General"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Général"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allmänt"
           }
         }
       }
@@ -226,6 +226,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Etiketter"
+          }
+        }
+      }
+    },
+    "Launch at login" : {
+      "comment" : "Toggle label for launching the app automatically at login",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beim Anmelden starten"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir al iniciar sesión"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir à la connexion"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starta vid inloggning"
           }
         }
       }
