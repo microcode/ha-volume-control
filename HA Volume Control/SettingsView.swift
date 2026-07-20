@@ -1,3 +1,4 @@
+import ServiceManagement
 import SwiftUI
 
 struct SettingsView: View {
@@ -12,6 +13,24 @@ struct SettingsView: View {
 
     @State private var hasAccessibilityPermission = VolumeKeyInterceptor.hasAccessibilityPermission
     @State private var permissionPollingTask: Task<Void, Never>?
+    @State private var launchAtLogin = (SMAppService.mainApp.status == .enabled)
+
+    private var launchAtLoginToggle: Binding<Bool> {
+        Binding(
+            get: { launchAtLogin },
+            set: { enabled in
+                if enabled {
+                    try? SMAppService.mainApp.register()
+                    launchAtLogin = (SMAppService.mainApp.status == .enabled)
+                } else {
+                    Task {
+                        try? await SMAppService.mainApp.unregister()
+                        launchAtLogin = (SMAppService.mainApp.status == .enabled)
+                    }
+                }
+            }
+        )
+    }
 
     private var interceptorToggle: Binding<Bool> {
         Binding(
@@ -52,14 +71,17 @@ struct SettingsView: View {
             .padding(.vertical, 16)
 
             Form {
+                Section("General") {
+                    Toggle("Launch at login", isOn: launchAtLoginToggle)
+                        .toggleStyle(.switch)
+                        .tint(.accentColor)
+                }
+
                 Section("Connection") {
                     TextField("URL", text: $haURL, prompt: Text("http://homeassistant.local:8123"))
                         .onChange(of: haURL) { _, new in
                             service.configure(url: new, token: haToken, entityID: service.entityID)
                         }
-                }
-
-                Section("Authentication") {
                     SecureField("Token", text: $haToken, prompt: Text("Long-lived access token"))
                         .onChange(of: haToken) { _, new in
                             KeychainHelper.save(new, forKey: "haToken")
