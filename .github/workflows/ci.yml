@@ -224,10 +224,13 @@ jobs:
             -H "Authorization: Bearer ${{ github.token }}" \
             "https://api.github.com/repos/sparkle-project/Sparkle/releases/latest" \
             | python3 -c "import sys,json; print(json.load(sys.stdin)['tag_name'].lstrip('v'))")
+          echo "Downloading Sparkle ${SPARKLE_VERSION}"
           curl -L -o /tmp/sparkle.tar.xz \
             "https://github.com/sparkle-project/Sparkle/releases/download/${SPARKLE_VERSION}/Sparkle-${SPARKLE_VERSION}.tar.xz"
           mkdir -p /tmp/sparkle
           tar -xf /tmp/sparkle.tar.xz -C /tmp/sparkle
+          echo "Sparkle tools available:"
+          ls /tmp/sparkle/bin/
 
       - name: Sign update and update appcast
         env:
@@ -240,9 +243,8 @@ jobs:
 
           curl -L -o "/tmp/${ZIP_NAME}" "$DOWNLOAD_URL"
 
-          echo "$SPARKLE_PRIVATE_KEY" > /tmp/sparkle.key
-          SIGN_OUTPUT=$(/tmp/sparkle/bin/sign_update "/tmp/${ZIP_NAME}" -f /tmp/sparkle.key)
-          rm -f /tmp/sparkle.key
+          SIGN_OUTPUT=$(echo "$SPARKLE_PRIVATE_KEY" | /tmp/sparkle/bin/sign_update "/tmp/${ZIP_NAME}" --ed-key-file -)
+          echo "sign_update output: ${SIGN_OUTPUT}"
 
           SIGNATURE=$(echo "$SIGN_OUTPUT" | python3 -c "import sys,re; m=re.search(r'edSignature=\"([^\"]+)\"', sys.stdin.read()); print(m.group(1))")
           FILE_SIZE=$(echo "$SIGN_OUTPUT" | python3 -c "import sys,re; m=re.search(r'length=\"([^\"]+)\"', sys.stdin.read()); print(m.group(1))")
