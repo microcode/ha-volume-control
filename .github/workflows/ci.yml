@@ -211,11 +211,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Checkout gh-pages
-        run: git checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
 
       - name: Download Sparkle tools
         run: |
@@ -239,7 +240,6 @@ jobs:
 
           curl -L -o "/tmp/${ZIP_NAME}" "$DOWNLOAD_URL"
 
-          # Write key to temp file, sign, then immediately remove
           echo "$SPARKLE_PRIVATE_KEY" > /tmp/sparkle.key
           SIGN_OUTPUT=$(/tmp/sparkle/bin/sign_update "/tmp/${ZIP_NAME}" -f /tmp/sparkle.key)
           rm -f /tmp/sparkle.key
@@ -250,47 +250,11 @@ jobs:
 
           VERSION="$VERSION" PUB_DATE="$PUB_DATE" DOWNLOAD_URL="$DOWNLOAD_URL" \
           SIGNATURE="$SIGNATURE" FILE_SIZE="$FILE_SIZE" \
-          python3 - << 'PYEOF'
-import os
-
-appcast = "appcast.xml"
-version = os.environ["VERSION"]
-pub_date = os.environ["PUB_DATE"]
-download_url = os.environ["DOWNLOAD_URL"]
-signature = os.environ["SIGNATURE"]
-file_size = os.environ["FILE_SIZE"]
-
-new_item = f"""        <item>
-            <title>Version {version}</title>
-            <pubDate>{pub_date}</pubDate>
-            <enclosure
-                url="{download_url}"
-                sparkle:version="{version}"
-                sparkle:shortVersionString="{version}"
-                sparkle:edSignature="{signature}"
-                length="{file_size}"
-                type="application/octet-stream" />
-        </item>"""
-
-if os.path.exists(appcast):
-    content = open(appcast).read()
-    content = content.replace("    </channel>", new_item + "\n    </channel>", 1)
-else:
-    content = f"""<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
-    <channel>
-        <title>HA Volume Control</title>
-        <link>https://microcode.github.io/ha-volume-control/appcast.xml</link>
-{new_item}
-    </channel>
-</rss>
-"""
-
-open(appcast, "w").write(content)
-PYEOF
+          python3 .github/scripts/update_appcast.py
 
       - name: Commit and push appcast
         run: |
+          cd gh-pages
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add appcast.xml
