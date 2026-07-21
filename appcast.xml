@@ -14,5 +14,16 @@
                 length="1975729"
                 type="application/octet-stream" />
         </item>
+        <item>
+            <title>Version 0.5.3</title>
+            <pubDate>Tue, 21 Jul 2026 21:24:18 +0000</pubDate>
+            <enclosure
+                url="https://github.com/microcode/ha-volume-control/releases/download/v0.5.3/HA-Volume-Control-v0.5.3.zip"
+                sparkle:version="0.5.3"
+                sparkle:shortVersionString="0.5.3"
+                sparkle:edSignature="c+jEDSQ6mGQ05zAFPwPGpNTxk4jR9dD6omqP6rxxT5Og7CziYskUDQPLUqEwfEN513jknQz6hFjuYnp2R+luAQ=="
+                length="2004269"
+                type="application/octet-stream" />
+        </item>
     </channel>
 </rss>
