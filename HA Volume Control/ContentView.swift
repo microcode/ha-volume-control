@@ -170,8 +170,8 @@ struct ContentView: View {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         NSApp.activate(ignoringOtherApps: true)
                         NSApp.windows
-                            .filter { !($0 is NSPanel) && $0.isVisible }
-                            .forEach { $0.makeKeyAndOrderFront(nil) }
+                            .filter { !($0 is NSPanel) }
+                            .forEach { $0.orderFrontRegardless() }
                     }
                 }
                 Divider().frame(height: 16)
