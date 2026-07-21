@@ -18,6 +18,35 @@
     "%lld%%" : {
 
     },
+    "About" : {
+      "comment" : "Tab label for the About tab in Settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Über"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acerca de"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À propos"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om"
+          }
+        }
+      }
+    },
     "Captures volume up/down keys system-wide and adjusts the media player instead. Requires Accessibility permission." : {
       "comment" : "Description below the volume key intercept toggle",
       "localizations" : {
@@ -77,7 +106,7 @@
       }
     },
     "Connection" : {
-      "comment" : "Settings section title for HA URL",
+      "comment" : "Settings section label for HA server connection",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -106,7 +135,7 @@
       }
     },
     "General" : {
-      "comment" : "Settings section title for general app behavior",
+      "comment" : "Settings section label for general app behavior",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -133,9 +162,6 @@
           }
         }
       }
-    },
-    "GitHub" : {
-      "shouldTranslate" : false
     },
     "Grant Accessibility Permission" : {
       "comment" : "Button to open Accessibility settings",
@@ -173,7 +199,7 @@
       "shouldTranslate" : false
     },
     "Integrations" : {
-      "comment" : "Settings section title for HA integrations filter",
+      "comment" : "Settings section label for HA integrations filter",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -231,7 +257,7 @@
       }
     },
     "Labels" : {
-      "comment" : "Settings section title for label-based entity filter",
+      "comment" : "Settings section label for label-based entity filter",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -255,6 +281,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Etiketter"
+          }
+        }
+      }
+    },
+    "Last check: %@" : {
+      "comment" : "Label showing when the last update check was performed; %@ is a formatted date/time string such as 'Today, 22:10'",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Letzte Prüfung: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Última comprobación: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dernière vérification : %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Senaste kontroll: %@"
           }
         }
       }
@@ -346,6 +401,35 @@
         }
       }
     },
+    "Never checked for updates" : {
+      "comment" : "Shown in the About tab when no update check has been performed yet",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch nie nach Updates gesucht"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nunca se han buscado actualizaciones"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune recherche de mises à jour effectuée"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Har aldrig sökt efter uppdateringar"
+          }
+        }
+      }
+    },
     "Quit" : {
       "comment" : "Footer button to terminate the app",
       "localizations" : {
@@ -376,7 +460,7 @@
       }
     },
     "Settings" : {
-      "comment" : "Footer button that opens the Settings window",
+      "comment" : "Footer button that opens the Settings window; also the tab label for the Settings tab",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -492,7 +576,7 @@
       }
     },
     "Version %@" : {
-      "comment" : "Version label in the settings header",
+      "comment" : "Version label in the About tab",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -520,8 +604,11 @@
         }
       }
     },
+    "GitHub" : {
+      "shouldTranslate" : false
+    },
     "Volume Keys" : {
-      "comment" : "Settings section title for volume key interception",
+      "comment" : "Settings section label for volume key interception",
       "localizations" : {
         "de" : {
           "stringUnit" : {

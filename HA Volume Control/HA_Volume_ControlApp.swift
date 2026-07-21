@@ -70,7 +70,7 @@ struct HA_Volume_ControlApp: App {
         .menuBarExtraStyle(.window)
 
         Settings {
-            SettingsView(checkForUpdates: { updaterController.checkForUpdates(nil) })
+            SettingsView(updater: updaterController.updater)
                 .environment(service)
                 .environment(interceptor)
         }
