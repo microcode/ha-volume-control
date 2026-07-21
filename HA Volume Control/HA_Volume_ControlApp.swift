@@ -74,5 +74,6 @@ struct HA_Volume_ControlApp: App {
                 .environment(service)
                 .environment(interceptor)
         }
+        .windowResizability(.contentSize)
     }
 }

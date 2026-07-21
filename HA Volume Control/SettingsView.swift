@@ -14,6 +14,8 @@ struct SettingsView: View {
     @Environment(HAService.self) private var service
     @Environment(VolumeKeyInterceptor.self) private var interceptor
 
+    @AppStorage("settingsSelectedTab") private var selectedTab = 0
+
     @State private var hasAccessibilityPermission = VolumeKeyInterceptor.hasAccessibilityPermission
     @State private var lastUpdateCheckDate: Date?
     @State private var updateCheckObservation: NSKeyValueObservation?
@@ -54,14 +56,20 @@ struct SettingsView: View {
 
     var body: some View {
         let _ = interceptor.isEnabled
-        TabView {
+        TabView(selection: $selectedTab) {
             settingsTab
                 .tabItem { Label("Settings", systemImage: "gearshape") }
+                .tag(0)
+
+            filtersTab
+                .tabItem { Label("Filters", systemImage: "line.3.horizontal.decrease.circle") }
+                .tag(1)
 
             aboutTab
                 .tabItem { Label("About", systemImage: "info.circle") }
+                .tag(2)
         }
-        .frame(width: 450)
+        .frame(width: 540)
         .onAppear {
             NSApp.setActivationPolicy(.regular)
             haToken = KeychainHelper.load(forKey: "haToken")
@@ -133,15 +141,18 @@ struct SettingsView: View {
                     }
                 }
 
-                if !service.allLabels.isEmpty {
-                    settingsDivider
+            }
+            .padding(20)
+        }
+    }
 
+    private var filtersTab: some View {
+        ScrollView {
+            Grid(alignment: .leadingFirstTextBaseline, horizontalSpacing: 16, verticalSpacing: 10) {
+                if !service.allLabels.isEmpty {
                     GridRow {
                         sectionLabel("Labels")
                         VStack(alignment: .leading, spacing: 6) {
-                            Text("When labels are selected, only entities that carry at least one of them are shown. Selecting none shows all entities.")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
                             ForEach(service.allLabels, id: \.self) { label in
                                 let isRequired = Binding<Bool>(
                                     get: {
@@ -166,13 +177,18 @@ struct SettingsView: View {
                                 }
                                 .toggleStyle(.checkbox)
                             }
+                            Text("When labels are selected, only entities that carry at least one of them are shown. Selecting none shows all entities.")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
                         }
                     }
                 }
 
-                if !service.integrations.isEmpty {
+                if !service.allLabels.isEmpty && !service.integrations.isEmpty {
                     settingsDivider
+                }
 
+                if !service.integrations.isEmpty {
                     GridRow {
                         sectionLabel("Integrations")
                         VStack(alignment: .leading, spacing: 6) {
@@ -202,6 +218,15 @@ struct SettingsView: View {
                                 .toggleStyle(.checkbox)
                             }
                         }
+                    }
+                }
+
+                if service.allLabels.isEmpty && service.integrations.isEmpty {
+                    GridRow {
+                        Color.clear
+                        Text("No filters available. Connect to Home Assistant to load labels and integrations.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
                     }
                 }
             }

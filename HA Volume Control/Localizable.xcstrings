@@ -604,8 +604,66 @@
         }
       }
     },
+    "Filters" : {
+      "comment" : "Tab label for the Filters tab in Settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtros"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtres"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter"
+          }
+        }
+      }
+    },
     "GitHub" : {
       "shouldTranslate" : false
+    },
+    "No filters available. Connect to Home Assistant to load labels and integrations." : {
+      "comment" : "Empty state shown in the Filters tab when no labels or integrations are loaded",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Filter verfügbar. Verbinde dich mit Home Assistant, um Bezeichnungen und Integrationen zu laden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay filtros disponibles. Conéctate a Home Assistant para cargar etiquetas e integraciones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun filtre disponible. Connectez-vous à Home Assistant pour charger les étiquettes et intégrations."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inga filter tillgängliga. Anslut till Home Assistant för att läsa in etiketter och integrationer."
+          }
+        }
+      }
     },
     "Volume Keys" : {
       "comment" : "Settings section label for volume key interception",
