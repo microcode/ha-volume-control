@@ -229,34 +229,31 @@ jobs:
             "https://github.com/sparkle-project/Sparkle/releases/download/${SPARKLE_VERSION}/Sparkle-${SPARKLE_VERSION}.tar.xz"
           mkdir -p /tmp/sparkle
           tar -xf /tmp/sparkle.tar.xz -C /tmp/sparkle
-          echo "Sparkle tools available:"
-          ls /tmp/sparkle/bin/
 
-      - name: Sign update and update appcast
+      - name: Generate appcast
         env:
           SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
         run: |
           TAG="${{ github.ref_name }}"
-          VERSION="${TAG#v}"
           ZIP_NAME="HA-Volume-Control-${TAG}.zip"
-          DOWNLOAD_URL="https://github.com/${{ github.repository }}/releases/download/${TAG}/${ZIP_NAME}"
+          DOWNLOAD_PREFIX="https://github.com/${{ github.repository }}/releases/download/${TAG}/"
 
-          curl -L -o "/tmp/${ZIP_NAME}" "$DOWNLOAD_URL"
+          # Set up working directory with the new zip and existing appcast
+          mkdir -p /tmp/appcast-work
+          curl -L -o "/tmp/appcast-work/${ZIP_NAME}" "${DOWNLOAD_PREFIX}${ZIP_NAME}"
+          cp gh-pages/appcast.xml /tmp/appcast-work/appcast.xml 2>/dev/null || true
 
-          if ! SIGN_OUTPUT=$(echo "$SPARKLE_PRIVATE_KEY" | /tmp/sparkle/bin/sign_update "/tmp/${ZIP_NAME}" --ed-key-file - 2>&1); then
-            echo "sign_update failed:"
-            echo "$SIGN_OUTPUT"
-            exit 1
-          fi
-          echo "sign_update output: ${SIGN_OUTPUT}"
+          # Write private key to a temp file (deleted on exit)
+          KEY_FILE=$(mktemp)
+          trap "rm -f '$KEY_FILE'" EXIT
+          printf '%s' "$SPARKLE_PRIVATE_KEY" > "$KEY_FILE"
 
-          SIGNATURE=$(echo "$SIGN_OUTPUT" | python3 -c "import sys,re; m=re.search(r'edSignature=\"([^\"]+)\"', sys.stdin.read()); print(m.group(1))")
-          FILE_SIZE=$(echo "$SIGN_OUTPUT" | python3 -c "import sys,re; m=re.search(r'length=\"([^\"]+)\"', sys.stdin.read()); print(m.group(1))")
-          PUB_DATE=$(date -u "+%a, %d %b %Y %H:%M:%S +0000")
+          /tmp/sparkle/bin/generate_appcast \
+            --ed-key-file "$KEY_FILE" \
+            --download-url-prefix "$DOWNLOAD_PREFIX" \
+            /tmp/appcast-work/
 
-          VERSION="$VERSION" PUB_DATE="$PUB_DATE" DOWNLOAD_URL="$DOWNLOAD_URL" \
-          SIGNATURE="$SIGNATURE" FILE_SIZE="$FILE_SIZE" \
-          python3 .github/scripts/update_appcast.py
+          cp /tmp/appcast-work/appcast.xml gh-pages/appcast.xml
 
       - name: Commit and push appcast
         run: |
