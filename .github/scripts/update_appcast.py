@@ -27,7 +27,7 @@ else:
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
     <channel>
         <title>HA Volume Control</title>
-        <link>https://microcode.github.io/ha-volume-control/appcast.xml</link>
+        <link>https://volumecontrol.microcode.se/appcast.xml</link>
 {new_item}
     </channel>
 </rss>
