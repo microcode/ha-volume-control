@@ -28,6 +28,7 @@ struct HA_Volume_ControlApp: App {
     private let updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
     @State private var service: HAService
     @State private var interceptor: VolumeKeyInterceptor
+    @State private var audioDeviceMonitor: AudioDeviceMonitor
 
     init() {
         if let bundleID = Bundle.main.bundleIdentifier,
@@ -38,10 +39,13 @@ struct HA_Volume_ControlApp: App {
 
         let service = HAService()
         let interceptor = VolumeKeyInterceptor()
+        let monitor = AudioDeviceMonitor()
         interceptor.service = service
         interceptor.hud = VolumeHUDPanel()
+        interceptor.audioDeviceMonitor = monitor
         _service = State(initialValue: service)
         _interceptor = State(initialValue: interceptor)
+        _audioDeviceMonitor = State(initialValue: monitor)
 
         KeychainHelper.migrateTokenIfNeeded()
 
@@ -55,6 +59,11 @@ struct HA_Volume_ControlApp: App {
 
         if defaults.bool(forKey: "interceptVolumeKeys") {
             _ = interceptor.enable()
+        }
+
+        if defaults.bool(forKey: "restrictToOutputDevice") {
+            let uid = defaults.string(forKey: "requiredOutputDeviceUID") ?? ""
+            interceptor.requiredOutputDeviceUID = uid.isEmpty ? nil : uid
         }
     }
 
@@ -73,6 +82,7 @@ struct HA_Volume_ControlApp: App {
             SettingsView(updater: updaterController.updater)
                 .environment(service)
                 .environment(interceptor)
+                .environment(audioDeviceMonitor)
         }
         .windowResizability(.contentSize)
     }

@@ -26,6 +26,8 @@ final class VolumeKeyInterceptor {
     // Weak so the interceptor doesn't extend the service's lifetime
     weak var service: HAService?
     var hud: VolumeHUDPanel?
+    var audioDeviceMonitor: AudioDeviceMonitor?
+    var requiredOutputDeviceUID: String?
 
     private var eventTap: CFMachPort?
     private var runLoopSource: CFRunLoopSource?
@@ -129,8 +131,14 @@ private func volumeKeyEventCallback(
         return Unmanaged.passRetained(event) // pass other media keys through
     }
 
+    let interceptor = Unmanaged<VolumeKeyInterceptor>.fromOpaque(refcon).takeUnretainedValue()
+
+    if let required = interceptor.requiredOutputDeviceUID,
+       interceptor.audioDeviceMonitor?.currentOutputDeviceUID != required {
+        return Unmanaged.passRetained(event)
+    }
+
     if isKeyDown {
-        let interceptor = Unmanaged<VolumeKeyInterceptor>.fromOpaque(refcon).takeUnretainedValue()
         if keyCode == NXKeyType.mute {
             interceptor.handleMuteKey()
         } else {

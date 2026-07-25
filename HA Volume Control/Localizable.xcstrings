@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     "(%@)" : {
       "shouldTranslate" : false
     },
@@ -134,6 +137,35 @@
         }
       }
     },
+    "Filters" : {
+      "comment" : "Tab label for the Filters tab in Settings",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtros"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtres"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter"
+          }
+        }
+      }
+    },
     "General" : {
       "comment" : "Settings section label for general app behavior",
       "localizations" : {
@@ -162,6 +194,9 @@
           }
         }
       }
+    },
+    "GitHub" : {
+      "shouldTranslate" : false
     },
     "Grant Accessibility Permission" : {
       "comment" : "Button to open Accessibility settings",
@@ -430,6 +465,64 @@
         }
       }
     },
+    "No filters available. Connect to Home Assistant to load labels and integrations." : {
+      "comment" : "Empty state shown in the Filters tab when no labels or integrations are loaded",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Filter verfügbar. Verbinde dich mit Home Assistant, um Bezeichnungen und Integrationen zu laden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay filtros disponibles. Conéctate a Home Assistant para cargar etiquetas e integraciones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun filtre disponible. Connectez-vous à Home Assistant pour charger les étiquettes et intégrations."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inga filter tillgängliga. Anslut till Home Assistant för att läsa in etiketter och integrationer."
+          }
+        }
+      }
+    },
+    "Only intercept when output device is:" : {
+      "comment" : "Toggle label for restricting volume key interception to a specific audio output device",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur abfangen, wenn das Ausgabegerät folgendes ist:"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interceptar solo cuando el dispositivo de salida sea:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intercepter uniquement lorsque le périphérique de sortie est :"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fånga bara upp när utdataenheten är:"
+          }
+        }
+      }
+    },
     "Quit" : {
       "comment" : "Footer button to terminate the app",
       "localizations" : {
@@ -600,67 +693,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Version %@"
-          }
-        }
-      }
-    },
-    "Filters" : {
-      "comment" : "Tab label for the Filters tab in Settings",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filter"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filtros"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filtres"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filter"
-          }
-        }
-      }
-    },
-    "GitHub" : {
-      "shouldTranslate" : false
-    },
-    "No filters available. Connect to Home Assistant to load labels and integrations." : {
-      "comment" : "Empty state shown in the Filters tab when no labels or integrations are loaded",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keine Filter verfügbar. Verbinde dich mit Home Assistant, um Bezeichnungen und Integrationen zu laden."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No hay filtros disponibles. Conéctate a Home Assistant para cargar etiquetas e integraciones."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aucun filtre disponible. Connectez-vous à Home Assistant pour charger les étiquettes et intégrations."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inga filter tillgängliga. Anslut till Home Assistant för att läsa in etiketter och integrationer."
           }
         }
       }
