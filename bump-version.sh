@@ -3,6 +3,19 @@ set -euo pipefail
 
 PBXPROJ="HA Volume Control.xcodeproj/project.pbxproj"
 
+# --- Verify git state ---
+
+branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+if [ "$branch" != "main" ]; then
+    echo "Error: must be on main branch (currently on '$branch')." >&2
+    exit 1
+fi
+
+if ! git pull --ff-only origin main; then
+    echo "Error: fast-forward pull failed. Rebase or merge manually before bumping." >&2
+    exit 1
+fi
+
 # --- Read current values ---
 
 current_marketing=$(grep -m1 'MARKETING_VERSION' "$PBXPROJ" | sed 's/.*= *//;s/;//;s/ *//')
