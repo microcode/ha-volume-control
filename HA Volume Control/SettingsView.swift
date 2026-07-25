@@ -9,10 +9,13 @@ struct SettingsView: View {
     @AppStorage("disabledIntegrations") private var disabledIntegrationsStr = ""
     @AppStorage("requiredLabels") private var requiredLabelsStr = ""
     @AppStorage("hudShowPercentage") private var hudShowPercentage = false
+    @AppStorage("restrictToOutputDevice") private var restrictToOutputDevice = false
+    @AppStorage("requiredOutputDeviceUID") private var requiredOutputDeviceUID = ""
     @State private var haToken = ""
 
     @Environment(HAService.self) private var service
     @Environment(VolumeKeyInterceptor.self) private var interceptor
+    @Environment(AudioDeviceMonitor.self) private var audioDeviceMonitor
 
     @AppStorage("settingsSelectedTab") private var selectedTab = 0
 
@@ -35,6 +38,16 @@ struct SettingsView: View {
                         launchAtLogin = (SMAppService.mainApp.status == .enabled)
                     }
                 }
+            }
+        )
+    }
+
+    private var devicePickerBinding: Binding<String> {
+        Binding(
+            get: { requiredOutputDeviceUID },
+            set: { uid in
+                requiredOutputDeviceUID = uid
+                interceptor.requiredOutputDeviceUID = uid.isEmpty ? nil : uid
             }
         )
     }
@@ -138,6 +151,27 @@ struct SettingsView: View {
                         }
                         Toggle("Show percentage in volume HUD", isOn: $hudShowPercentage)
                             .toggleStyle(.checkbox)
+                        Toggle("Only intercept when output device is:", isOn: $restrictToOutputDevice)
+                            .toggleStyle(.checkbox)
+                            .onChange(of: restrictToOutputDevice) { _, enabled in
+                                if enabled {
+                                    if requiredOutputDeviceUID.isEmpty, let first = audioDeviceMonitor.outputDevices.first {
+                                        requiredOutputDeviceUID = first.uid
+                                    }
+                                    interceptor.requiredOutputDeviceUID = requiredOutputDeviceUID.isEmpty ? nil : requiredOutputDeviceUID
+                                } else {
+                                    interceptor.requiredOutputDeviceUID = nil
+                                }
+                            }
+                        if restrictToOutputDevice {
+                            Picker("", selection: devicePickerBinding) {
+                                ForEach(audioDeviceMonitor.outputDevices) { device in
+                                    Text(device.name).tag(device.uid)
+                                }
+                            }
+                            .labelsHidden()
+                            .padding(.leading, 20)
+                        }
                     }
                 }
 
