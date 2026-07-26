@@ -192,7 +192,7 @@ struct ContentView: View {
             Divider()
 
             HStack(spacing: 0) {
-                footerButton("Settings") {
+                footerButton("Settings…") {
                     openSettings()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         NSApp.activate(ignoringOtherApps: true)
