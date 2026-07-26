@@ -4,22 +4,40 @@
     "" : {
 
     },
-    "(%@)" : {
-      "shouldTranslate" : false
-    },
-    "%@ %@" : {
+    "%lld%%" : {
+      "comment" : "Volume percentage shown in the HUD overlay; %lld is replaced with the integer volume percentage (0–100)",
       "localizations" : {
-        "en" : {
+        "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ %2$@"
+            "state" : "translated",
+            "value" : "%lld%%"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%%"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld %%"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%%"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%%"
           }
         }
-      },
-      "shouldTranslate" : false
-    },
-    "%lld%%" : {
-
+      }
     },
     "About" : {
       "comment" : "Tab label for the About tab in Settings",
@@ -661,7 +679,7 @@
       }
     },
     "Settings" : {
-      "comment" : "Footer button that opens the Settings window; also the tab label for the Settings tab",
+      "comment" : "Tab label for the Settings tab",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -691,6 +709,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Inställningar"
+          }
+        }
+      }
+    },
+    "Settings…" : {
+      "comment" : "Footer button that opens the Settings window",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réglages…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impostazioni…"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inställningar…"
           }
         }
       }
