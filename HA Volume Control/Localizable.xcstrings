@@ -42,6 +42,12 @@
             "value" : "À propos"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informazioni"
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
@@ -69,6 +75,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Capture les touches de volume à l'échelle du système et ajuste le lecteur multimédia à la place. Nécessite l'autorisation d'accessibilité."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cattura i tasti volume su/giù a livello di sistema e regola il lettore multimediale. Richiede il permesso di Accessibilità."
           }
         },
         "sv" : {
@@ -100,6 +112,12 @@
             "value" : "Rechercher des mises à jour…"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca aggiornamenti…"
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
@@ -127,6 +145,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Connexion"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connessione"
           }
         },
         "sv" : {
@@ -158,6 +182,12 @@
             "value" : "Filtres"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtri"
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
@@ -185,6 +215,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Général"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Generali"
           }
         },
         "sv" : {
@@ -217,6 +253,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Accorder l'autorisation d'accessibilité"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Concedi permesso di accessibilità"
           }
         },
         "sv" : {
@@ -254,6 +296,12 @@
             "value" : "Intégrations"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Integrazioni"
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
@@ -281,6 +329,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Intercepter les touches de volume matérielles"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intercetta i tasti volume hardware"
           }
         },
         "sv" : {
@@ -312,6 +366,12 @@
             "value" : "Étiquettes"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etichette"
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
@@ -339,6 +399,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dernière vérification : %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultimo controllo: %@"
           }
         },
         "sv" : {
@@ -370,6 +436,12 @@
             "value" : "Ouvrir à la connexion"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avvia al login"
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
@@ -397,6 +469,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Chargement…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caricamento…"
           }
         },
         "sv" : {
@@ -428,6 +506,12 @@
             "value" : "Jeton d'accès longue durée"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Token di accesso a lunga durata"
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
@@ -455,6 +539,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aucune recherche de mises à jour effectuée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiornamenti mai verificati"
           }
         },
         "sv" : {
@@ -486,6 +576,12 @@
             "value" : "Aucun filtre disponible. Connectez-vous à Home Assistant pour charger les étiquettes et intégrations."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun filtro disponibile. Connettiti a Home Assistant per caricare etichette e integrazioni."
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
@@ -513,6 +609,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Intercepter uniquement lorsque le périphérique de sortie est :"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intercetta solo quando il dispositivo di uscita è:"
           }
         },
         "sv" : {
@@ -544,6 +646,12 @@
             "value" : "Quitter"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esci"
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
@@ -571,6 +679,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Réglages"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impostazioni"
           }
         },
         "sv" : {
@@ -602,6 +716,12 @@
             "value" : "Afficher le pourcentage dans le HUD de volume"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra percentuale nel HUD del volume"
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
@@ -631,6 +751,12 @@
             "value" : "Jeton"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Token"
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
@@ -655,6 +781,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL"
+          }
+        },
+        "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "URL"
@@ -689,6 +821,12 @@
             "value" : "Version %@"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versione %@"
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
@@ -718,6 +856,12 @@
             "value" : "Touches de volume"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tasti volume"
+          }
+        },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
@@ -745,6 +889,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lorsque des étiquettes sont sélectionnées, seules les entités qui en ont au moins une sont affichées. Si aucune n'est sélectionnée, toutes les entités sont affichées."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando le etichette sono selezionate, vengono mostrate solo le entità che ne hanno almeno una. Se non ne viene selezionata nessuna, vengono mostrate tutte le entità."
           }
         },
         "sv" : {
