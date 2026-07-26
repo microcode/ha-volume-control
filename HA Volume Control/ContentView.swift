@@ -17,6 +17,7 @@ struct MediaPlayer: Identifiable {
 private struct MediaPlayerRow: View {
     let player: MediaPlayer
     let isActive: Bool
+    let showEntityID: Bool
     @State private var isHovered = false
 
     var body: some View {
@@ -30,10 +31,19 @@ private struct MediaPlayerRow: View {
                     .foregroundStyle(isActive ? Color.white : Color.secondary)
             }
 
-            Text("\(player.displayName) \(Text("(\(player.entityID))").foregroundStyle(.tertiary))")
-                .font(.system(size: 13))
-                .lineLimit(1)
-                .truncationMode(.tail)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(player.displayName)
+                    .font(.system(size: 13))
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                if showEntityID {
+                    Text(player.entityID)
+                        .font(.system(size: 13))
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                }
+            }
 
             Spacer()
         }
@@ -47,6 +57,14 @@ private struct MediaPlayerRow: View {
 
 /// Measures the rendered height of the popup content from inside SwiftUI's layout system.
 private struct PopupHeightKey: PreferenceKey {
+    static let defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = max(value, nextValue())
+    }
+}
+
+/// Measures the natural height of the player list content so the ScrollView frame matches exactly.
+private struct PlayerListHeightKey: PreferenceKey {
     static let defaultValue: CGFloat = 0
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
         value = max(value, nextValue())
@@ -71,6 +89,8 @@ struct ContentView: View {
     @State private var debounceTask: Task<Void, Never>?
     @State private var mediaPlayers: [MediaPlayer] = []
     @State private var isLoadingPlayers = false
+    @State private var showEntityIDs = false
+    @State private var playerListHeight: CGFloat = 0
 
     private var filteredPlayers: [MediaPlayer] {
         let disabledIntegrations = Set(disabledIntegrationsStr.split(separator: ",").filter { !$0.isEmpty }.map(String.init))
@@ -153,12 +173,19 @@ struct ContentView: View {
                 ScrollView {
                     VStack(spacing: 0) {
                         ForEach(filteredPlayers) { player in
-                            MediaPlayerRow(player: player, isActive: player.entityID == haEntityID)
+                            MediaPlayerRow(player: player, isActive: player.entityID == haEntityID, showEntityID: showEntityIDs)
                                 .onTapGesture { selectPlayer(player) }
                         }
                     }
+                    .background(GeometryReader { geo in
+                        Color.clear.preference(key: PlayerListHeightKey.self, value: geo.size.height)
+                    })
                 }
-                .frame(height: CGFloat(min(filteredPlayers.count, 20)) * 36)
+                .onPreferenceChange(PlayerListHeightKey.self) { playerListHeight = $0 }
+                .frame(height: min(
+                    playerListHeight > 0 ? playerListHeight : CGFloat(filteredPlayers.count) * 36,
+                    CGFloat(20) * (showEntityIDs ? 44 : 36)
+                ))
                 .scrollIndicators(filteredPlayers.count > 20 ? .automatic : .hidden)
             }
 
@@ -201,6 +228,8 @@ struct ContentView: View {
             popup.setFrame(frame, display: popup.isVisible, animate: false)
         }
         .onAppear {
+            showEntityIDs = NSEvent.modifierFlags.contains(.option)
+            playerListHeight = 0
             service.configure(url: haURL, token: haToken, entityID: haEntityID)
             Task {
                 await service.fetchVolume()
