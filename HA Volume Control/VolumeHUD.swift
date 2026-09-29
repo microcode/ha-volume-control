@@ -111,6 +111,10 @@ final class VolumeHUDPanel {
         UserDefaults.standard.set(x, forKey: "hudIconCenterX")
     }
 
+    private static let collectionBehavior: NSWindow.CollectionBehavior = [
+        .canJoinAllSpaces, .fullScreenAuxiliary, .stationary, .ignoresCycle,
+    ]
+
     init() {
         iconCenterX = UserDefaults.standard.double(forKey: "hudIconCenterX")
         hostingView = NSHostingView(rootView: HUDView(volume: 0.5, isMuted: false, deviceName: ""))
@@ -127,7 +131,10 @@ final class VolumeHUDPanel {
         panel.backgroundColor = .clear
         panel.hasShadow = true
         panel.animationBehavior = .none
-        panel.collectionBehavior = [.canJoinAllSpaces, .stationary, .ignoresCycle]
+        // NSPanel defaults to hiding when the app deactivates. The app is almost never
+        // active (menu bar agent), so this must be off or the HUD can get stuck hidden.
+        panel.hidesOnDeactivate = false
+        panel.collectionBehavior = Self.collectionBehavior
         panel.contentView = hostingView
         panel.alphaValue = 0
     }
@@ -138,6 +145,7 @@ final class VolumeHUDPanel {
             window is NSPanel &&
                 window.level != .screenSaver &&
                 window.isVisible &&
+                window.isOnActiveSpace &&
                 abs(window.frame.maxY - screen.visibleFrame.maxY) < 50
         }
         guard !isPopupVisible else { return }
@@ -153,7 +161,7 @@ final class VolumeHUDPanel {
         let y = screen.visibleFrame.maxY - size.height - 10
         panel.setFrame(NSRect(origin: NSPoint(x: x, y: y), size: size), display: false)
 
-        panel.collectionBehavior = [.canJoinAllSpaces, .stationary, .ignoresCycle]
+        panel.collectionBehavior = Self.collectionBehavior
         panel.orderFrontRegardless()
         NSAnimationContext.runAnimationGroup { ctx in
             ctx.duration = 0.15
